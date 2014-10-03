@@ -7,6 +7,7 @@ npm install --save dnsbl
 ```
 
 ##Usage
+###Single Query
 ```js
 var dnsbl = require("dnsbl");
 
@@ -14,8 +15,13 @@ dnsbl.lookup("1.2.3.4", "dnsbl.somelist.net", function(err, listed) {
     console.log(listed);
     // -> true / false
 });
+```
+###Batch Query
+```js
+var ips   = ["1.2.3.4", "5.6.7.8"];
+var lists = ["dnsbl-1.somelist.net", "dnsbl-2.somelist.net"];
 
-dnsbl.batch(["1.2.3.4","5.6.7.8"],["dnsbl-1.somelist.net", "dnsbl-2.somelist.net"], function(err, results) {
+dnsbl.batch(ips, lists, function(err, results) {
     console.log(results);
     // -> [
     // ->     { blacklist: "dnsbl-1.somelist.net", address: "1.2.3.4", listed: true  },
