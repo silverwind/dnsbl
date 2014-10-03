@@ -1,0 +1,29 @@
+{
+  "name": "dnsbl",
+  "version": "0.1.0",
+  "description": "Query DNS-based blackhole lists",
+  "license": "BSD-2-clause",
+  "author": "silverwind <me@silverwind.io> (https://github.com/silverwind)",
+  "homepage": "https://github.com/silverwind/dnsbl",
+  "bugs": {
+    "url": "https://github.com/silverwind/dnsbl/issues"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silverwind/dnsbl"
+  },
+  "keywords": [
+    "dnsbl",
+    "rbl",
+    "query",
+    "ip",
+    "dns",
+    "blacklist",
+    "mail",
+    "spam"
+  ],
+  "dependencies": {
+    "async": "^0.9.0"
+  }
+}
