@@ -37,9 +37,9 @@ dnsbl.batch(ips, lists, function(err, results) {
 - `callback`: *function* receives `err` and `listed`, a boolean value indicating if the address is listed on the blacklist.
 
 ### dnsbl.batch(addresses, blacklists, callback)
-- `address`: *string*/*array* one or more IPv4 addresses to lookup.
-- `blacklists`: *string* one or more DNSBL addresses to use.
-- `callback`: *function* receives `err` (if any) and an `results` object.
+- `addresses`: *string* or *array* one or more IPv4 addresses to lookup.
+- `blacklists`: *string* or *array* one or more DNSBL addresses to use.
+- `callback`: *function* receives `err` *Error* (*null* if none) and an `results` *object*.
 
 ####results object
 The results object is an array of objects with these properies:
