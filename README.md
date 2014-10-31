@@ -1,4 +1,4 @@
-#dnsbl [![NPM version](https://img.shields.io/npm/v/dnsbl.svg)](https://www.npmjs.org/package/dnsbl)
+#dnsbl [![NPM version](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl)
 > Query DNS-based blackhole lists
 
 ##Installation
