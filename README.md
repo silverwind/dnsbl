@@ -47,4 +47,4 @@ The results object is an array of objects with these properies:
 - `blacklist`: *string* the DNSBL address looked up.
 - `listed`: *boolean* a boolean indicating if the address is listed on the blacklist.
 
-© 2014 [silverwind](https://github.com/silverwind), distributed under BSD licence
+© 2014-2015 [silverwind](https://github.com/silverwind), distributed under BSD licence
