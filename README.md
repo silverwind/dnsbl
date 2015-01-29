@@ -1,13 +1,13 @@
-#dnsbl [![NPM version](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl)
+# dnsbl [![NPM version](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl)
 > Query DNS-based blackhole lists
 
-##Installation
+## Installation
 ```bash
 npm install --save dnsbl
 ```
 
-##Usage
-###Single Query
+## Usage
+### Single Query
 ```js
 var dnsbl = require("dnsbl");
 
@@ -16,7 +16,7 @@ dnsbl.lookup("1.2.3.4", "dnsbl.somelist.net", function(err, listed) {
     // -> true / false
 });
 ```
-###Batch Query
+### Batch Query
 ```js
 var ips   = ["1.2.3.4", "5.6.7.8"];
 var lists = ["dnsbl-1.somelist.net", "dnsbl-2.somelist.net"];
@@ -30,7 +30,7 @@ dnsbl.batch(ips, lists, function(err, results) {
 });
 ```
 
-##API
+## API
 ### dnsbl.lookup(address, blacklist, callback)
 - `address`: *string* an IPv4 address to lookup.
 - `blacklist`: *string* an DNSBL address to use.
@@ -41,7 +41,7 @@ dnsbl.batch(ips, lists, function(err, results) {
 - `blacklists`: *string* or *array* one or more DNSBL addresses to use.
 - `callback`: *function* receives `err` *Error* (*null* if none) and an `results` *object*.
 
-####results object
+### results object
 The results object is an array of objects with these properies:
 - `address`: *string* the IPv4 address looked up.
 - `blacklist`: *string* the DNSBL address looked up.
