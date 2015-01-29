@@ -25,5 +25,10 @@
   ],
   "dependencies": {
     "async": "^0.9.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bump": "^0.0.17",
+    "grunt-shell": "^1.1.1"
   }
 }
