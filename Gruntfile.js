@@ -6,7 +6,7 @@ module.exports = function (grunt) {
             options: {
                 files: ["package.json"],
                 commit: true,
-                commitMessage: "Release %VERSION%",
+                commitMessage: "%VERSION%",
                 commitFiles: ["package.json"],
                 createTag: true,
                 tagName: "%VERSION%",
@@ -30,7 +30,7 @@ module.exports = function (grunt) {
                 command: "npm-check-updates -u"
             },
             modules: {
-                command: "npm install"
+                command: "rm -rf node_modules && npm install"
             },
             lint: {
                 command: "eslint --reset --color --quiet ."
