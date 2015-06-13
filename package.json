@@ -2,17 +2,10 @@
   "name": "dnsbl",
   "version": "0.1.1",
   "description": "Query DNS-based blackhole lists",
-  "license": "BSD-2-clause",
+  "license": "BSD-2-Clause",
   "author": "silverwind <me@silverwind.io> (https://github.com/silverwind)",
-  "homepage": "https://github.com/silverwind/dnsbl",
-  "bugs": {
-    "url": "https://github.com/silverwind/dnsbl/issues"
-  },
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/silverwind/dnsbl"
-  },
+  "repository": "silverwind/dnsbl",
   "keywords": [
     "dnsbl",
     "rbl",

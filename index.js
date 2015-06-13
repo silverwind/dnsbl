@@ -7,15 +7,15 @@ var dnsbl = {},
 
 function query(address, blacklist) {
     return function isListed(cb) {
-        dns.resolve(address.split(".").reverse().join(".") + "." + blacklist, "A", function(err) {
-            cb(null, err ? false : true);
+        dns.resolve(address.split(".").reverse().join(".") + "." + blacklist, "A", function (err) {
+            cb(null, !err);
         });
     };
 }
 
 dnsbl.lookup = function lookup(address, blacklist, callback) {
     query(address, blacklist)(callback);
-}
+};
 
 dnsbl.batch = function batch(addresses, blacklists, callback) {
     var todo = [];
@@ -33,13 +33,13 @@ dnsbl.batch = function batch(addresses, blacklists, callback) {
         });
     });
 
-    async.map(todo, function(item, cb) {
-        item.query(function (err, listed) {
+    async.map(todo, function (item, cb) {
+        item.query(function (_, listed) {
             item.listed = listed;
             delete item.query;
             cb(null, item);
         });
-    }, function(err, results) {
+    }, function (_, results) {
         callback(null, results);
     });
 };
