@@ -1,6 +1,6 @@
 {
   "name": "dnsbl",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Query DNS-based blackhole lists",
   "license": "BSD-2-Clause",
   "author": "silverwind <me@silverwind.io> (https://github.com/silverwind)",
