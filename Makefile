@@ -2,7 +2,7 @@ lint:
 	eslint *.js
 
 test:
-	node --trace-deprecation --throw-deprecation test.js
+	ava
 
 publish:
 	git push -u --tags origin master

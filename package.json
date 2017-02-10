@@ -6,6 +6,9 @@
   "author": "silverwind <me@silverwind.io>",
   "main": "index.js",
   "repository": "silverwind/dnsbl",
+  "scripts": {
+    "test": "ava"
+  },
   "keywords": [
     "dnsbl",
     "rbl",
@@ -16,6 +19,10 @@
     "blackhole"
   ],
   "dependencies": {
-    "async": "^0.9.0"
+    "async": "^2.1.4",
+    "ip-ptr": "^1.2.0"
+  },
+  "devDependencies": {
+    "ava": "^0.18.1"
   }
 }

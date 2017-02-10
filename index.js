@@ -1,47 +1,44 @@
 #!/usr/bin/env node
 "use strict";
 
-var dnsbl = {},
-    dns   = require("dns"),
-    async = require("async");
+const dns = require("dns");
+const async = require("async");
+const ptr = require("ip-ptr");
 
-function query(address, blacklist) {
-    return function isListed(cb) {
-        dns.resolve(address.split(".").reverse().join(".") + "." + blacklist, "A", function (err) {
-            cb(null, !err);
-        });
-    };
+function queryFactory(ip, blacklist) {
+  return function query() {
+    return new Promise(function(resolve) {
+      dns.resolve(ptr(ip, {suffix: false}) + "." + blacklist, "A", function(err) {
+        resolve(!err);
+      });
+    });
+  };
 }
 
-dnsbl.lookup = function lookup(address, blacklist, callback) {
-    query(address, blacklist)(callback);
+module.exports.lookup = function lookup(addr, blacklist) {
+  return queryFactory(addr, blacklist)();
 };
 
-dnsbl.batch = function batch(addresses, blacklists, callback) {
+module.exports.batch = function batch(addrs, lists) {
+  return new Promise(function(resolve) {
     var todo = [];
-
-    addresses  = Array.isArray(addresses)  ? addresses  : [addresses];
-    blacklists = Array.isArray(blacklists) ? blacklists : [blacklists];
-
-    addresses.forEach(function (address) {
-        blacklists.forEach(function (blacklist) {
-            todo.push({
-                blacklist : blacklist,
-                address   : address,
-                query     : query(address, blacklist)
-            });
+    (Array.isArray(addrs)  ? addrs  : [addrs]).forEach(function(address) {
+      (Array.isArray(lists) ? lists : [lists]).forEach(function(blacklist) {
+        todo.push({
+          blacklist: blacklist,
+          address: address,
+          query: queryFactory(address, blacklist)
         });
+      });
     });
-
-    async.map(todo, function (item, cb) {
-        item.query(function (_, listed) {
-            item.listed = listed;
-            delete item.query;
-            cb(null, item);
-        });
-    }, function (_, results) {
-        callback(null, results);
+    async.map(todo, function(item, cb) {
+      item.query().then(function(listed) {
+        item.listed = listed;
+        delete item.query;
+        cb(null, item);
+      });
+    }, function(_, results) {
+      resolve(results);
     });
+  });
 };
-
-module.exports = dnsbl;

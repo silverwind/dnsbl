@@ -3,8 +3,8 @@
 > Query DNS-based blackhole lists
 
 ## Installation
-```bash
-npm install --save dnsbl
+```sh
+$ npm install --save dnsbl
 ```
 
 ## Usage
@@ -12,40 +12,42 @@ npm install --save dnsbl
 ```js
 var dnsbl = require("dnsbl");
 
-dnsbl.lookup("1.2.3.4", "dnsbl.somelist.net", function(err, listed) {
+dnsbl.lookup("127.0.0.2", "zen.spamhaus.org").then(function(listed) {
     console.log(listed);
-    // -> true / false
+    //=> true
 });
 ```
 ### Batch Query
 ```js
 var ips   = ["1.2.3.4", "5.6.7.8"];
-var lists = ["dnsbl-1.somelist.net", "dnsbl-2.somelist.net"];
+var lists = ["dnsbl.somelist.net", "dnsbl.someotherlist.net"];
 
-dnsbl.batch(ips, lists, function(err, results) {
+dnsbl.batch(ips, lists).then(function(err, results) {
     console.log(results);
-    // -> [
-    // ->     { blacklist: "dnsbl-1.somelist.net", address: "1.2.3.4", listed: true  },
-    // ->     { blacklist: "dnsbl-2.somelist.net", address: "5.6.7.8", listed: false }
-    // -> ]
+    //=> [
+    //=>   { blacklist: "dnsbl-1.somelist.net", address: "1.2.3.4", listed: true  },
+    //=>   { blacklist: "dnsbl-2.somelist.net", address: "5.6.7.8", listed: false }
+    //=> ]
 });
 ```
 
 ## API
-### dnsbl.lookup(address, blacklist, callback)
+### dnsbl.lookup(address, blacklist)
 - `address`: *string* an IPv4 address to lookup.
-- `blacklist`: *string* an DNSBL address to use.
-- `callback`: *function* receives `err` and `listed`, a boolean value indicating if the address is listed on the blacklist.
+- `blacklist`: *string* a DNS suffix to use.
 
-### dnsbl.batch(addresses, blacklists, callback)
-- `addresses`: *string* or *array* one or more IPv4 addresses to lookup.
-- `blacklists`: *string* or *array* one or more DNSBL addresses to use.
-- `callback`: *function* receives `err` *Error* (*null* if none) and an `results` *object*.
+Returns a promise that resolves to `true` or `false`, indicating if the address is listed on the list.
 
-### results object
-The results object is an array of objects with these properies:
-- `address`: *string* the IPv4 address looked up.
-- `blacklist`: *string* the DNSBL address looked up.
-- `listed`: *boolean* a boolean indicating if the address is listed on the blacklist.
+### dnsbl.batch(addresses, blacklists)
+- `addresses` *string* or *Array* - one or more IPv4 addresses to lookup.
+- `blacklists` *string* or *Array* - one or more DNSBL addresses to use.
 
-© 2014-2015 [silverwind](https://github.com/silverwind), distributed under BSD licence
+Returns a promise that resolve to a result object (see below).
+
+### `results` object
+The results` object is an array of objects with these properies:
+- `address` *string* - the IPv4 address looked up.
+- `blacklist` *string* - the DNSBL address looked up.
+- `listed` *boolean* -  a boolean indicating if the address is listed on the blacklist.
+
+© [silverwind](https://github.com/silverwind), distributed under BSD licence
