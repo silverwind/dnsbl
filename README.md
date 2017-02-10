@@ -10,23 +10,23 @@ $ npm install --save dnsbl
 ## Usage
 ### Single Query
 ```js
-var dnsbl = require("dnsbl");
+var dnsbl = require('dnsbl');
 
-dnsbl.lookup("127.0.0.2", "zen.spamhaus.org").then(function(listed) {
+dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org').then(function(listed) {
     console.log(listed);
     //=> true
 });
 ```
 ### Batch Query
 ```js
-var ips   = ["1.2.3.4", "5.6.7.8"];
-var lists = ["dnsbl.somelist.net", "dnsbl.someotherlist.net"];
+var ips   = ['1.2.3.4', '5.6.7.8'];
+var lists = ['dnsbl.somelist.net', 'dnsbl.someotherlist.net'];
 
 dnsbl.batch(ips, lists).then(function(err, results) {
     console.log(results);
     //=> [
-    //=>   { blacklist: "dnsbl-1.somelist.net", address: "1.2.3.4", listed: true  },
-    //=>   { blacklist: "dnsbl-2.somelist.net", address: "5.6.7.8", listed: false }
+    //=>   { blacklist: 'dnsbl-1.somelist.net', address: '1.2.3.4', listed: true  },
+    //=>   { blacklist: 'dnsbl-2.somelist.net', address: '5.6.7.8', listed: false }
     //=> ]
 });
 ```
