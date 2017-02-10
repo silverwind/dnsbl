@@ -45,9 +45,9 @@ Returns a promise that resolves to `true` or `false`, indicating if the address 
 Returns a promise that resolve to a result object (see below).
 
 ### `options` object
-#### `server` *string* - the DNS server to use. Default: `'208.67.220.220'`.
-#### `port` *number* - the port to use. Default: `53`.
-#### `timeout` *number* - timout in milliseconds. Default: `10000`.
+- `server` *string* - the DNS server to use. Default: `'208.67.220.220'`.
+- `port` *number* - the port to use. Default: `53`.
+- `timeout` *number* - timout in milliseconds. Default: `10000`.
 
 ### `results` object
 The results` object is an array of objects with these properies:
