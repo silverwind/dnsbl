@@ -1,6 +1,6 @@
 # dnsbl
 [![](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl) [![](https://img.shields.io/npm/dm/dnsbl.svg)](https://www.npmjs.org/package/dnsbl) [![](https://api.travis-ci.org/silverwind/dnsbl.svg?style=flat)](https://travis-ci.org/silverwind/dnsbl)
-> Query DNS-based blackhole lists
+> Query DNS-based blacklists
 
 ## Installation
 ```sh

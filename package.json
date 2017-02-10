@@ -1,7 +1,7 @@
 {
   "name": "dnsbl",
   "version": "1.1.1",
-  "description": "Query DNS-based blackhole lists",
+  "description": "Query DNS-based blacklists",
   "license": "BSD-2-Clause",
   "author": "silverwind <me@silverwind.io>",
   "main": "index.js",
