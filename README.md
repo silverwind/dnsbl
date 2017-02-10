@@ -32,17 +32,22 @@ dnsbl.batch(ips, lists).then(function(err, results) {
 ```
 
 ## API
-### dnsbl.lookup(address, blacklist)
+### dnsbl.lookup(address, blacklist, options)
 - `address`: *string* an IPv4 address to lookup.
 - `blacklist`: *string* a DNS suffix to use.
 
 Returns a promise that resolves to `true` or `false`, indicating if the address is listed on the list.
 
-### dnsbl.batch(addresses, blacklists)
+### dnsbl.batch(addresses, blacklists, options)
 - `addresses` *string* or *Array* - one or more IPv4 addresses to lookup.
 - `blacklists` *string* or *Array* - one or more DNSBL addresses to use.
 
 Returns a promise that resolve to a result object (see below).
+
+### `options` object
+#### `server` *string* - the DNS server to use. Default: `'208.67.220.220'`.
+#### `port` *number* - the port to use. Default: `53`.
+#### `timeout` *number* - timout in milliseconds. Default: `10000`.
 
 ### `results` object
 The results` object is an array of objects with these properies:

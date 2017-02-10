@@ -4,9 +4,14 @@
 const dns = require("dns-socket");
 const async = require("async");
 const ptr = require("ip-ptr");
-const socket = dns({timeout: 5000});
 
-function queryFactory(ip, blacklist) {
+const defaults = {
+  timeout: 10000,
+  server: "208.67.220.220",
+  port: 53,
+};
+
+function queryFactory(ip, blacklist, socket, opts) {
   return function query() {
     return new Promise(function(resolve) {
       socket.query({
@@ -14,18 +19,24 @@ function queryFactory(ip, blacklist) {
           type: "A",
           name: ptr(ip, {suffix: false}) + "." + blacklist,
         }]
-      }, 53, "208.67.220.220", function(_err, res) {
+      }, opts.port, opts.server, function(_err, res) {
         resolve(Boolean(res.answers.length));
       });
     });
   };
 }
 
-module.exports.lookup = function lookup(addr, blacklist) {
-  return queryFactory(addr, blacklist)();
+module.exports.lookup = function lookup(addr, blacklist, opts) {
+  opts = Object.assign({}, defaults, opts);
+  const socket = dns({timeout: opts.timeout});
+
+  return queryFactory(addr, blacklist, socket, opts)();
 };
 
-module.exports.batch = function batch(addrs, lists) {
+module.exports.batch = function batch(addrs, lists, opts) {
+  opts = Object.assign({}, defaults, opts);
+  const socket = dns({timeout: opts.timeout});
+
   return new Promise(function(resolve) {
     var todo = [];
     (Array.isArray(addrs)  ? addrs  : [addrs]).forEach(function(address) {
@@ -33,7 +44,7 @@ module.exports.batch = function batch(addrs, lists) {
         todo.push({
           blacklist: blacklist,
           address: address,
-          query: queryFactory(address, blacklist)
+          query: queryFactory(address, blacklist, socket, opts)
         });
       });
     });
