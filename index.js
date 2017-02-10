@@ -1,15 +1,21 @@
 #!/usr/bin/env node
 "use strict";
 
-const dns = require("dns");
+const dns = require("dns-socket");
 const async = require("async");
 const ptr = require("ip-ptr");
+const socket = dns({timeout: 5000});
 
 function queryFactory(ip, blacklist) {
   return function query() {
     return new Promise(function(resolve) {
-      dns.resolve(ptr(ip, {suffix: false}) + "." + blacklist, "A", function(err) {
-        resolve(!err);
+      socket.query({
+        questions: [{
+          type: "A",
+          name: ptr(ip, {suffix: false}) + "." + blacklist,
+        }]
+      }, 53, "208.67.220.220", function(_err, res) {
+        resolve(Boolean(res.answers.length));
       });
     });
   };
