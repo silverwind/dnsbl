@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "Query DNS-based blackhole lists",
   "license": "BSD-2-Clause",
-  "author": "silverwind <me@silverwind.io> (https://github.com/silverwind)",
+  "author": "silverwind <me@silverwind.io>",
   "main": "index.js",
   "repository": "silverwind/dnsbl",
   "keywords": [
@@ -13,15 +13,9 @@
     "ip",
     "dns",
     "blacklist",
-    "mail",
-    "spam"
+    "blackhole"
   ],
   "dependencies": {
     "async": "^0.9.0"
-  },
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-bump": "^0.0.17",
-    "grunt-shell": "^1.1.1"
   }
 }
