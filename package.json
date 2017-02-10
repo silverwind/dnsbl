@@ -18,6 +18,9 @@
     "blacklist",
     "blackhole"
   ],
+  "files": [
+    "index.js"
+  ],
   "dependencies": {
     "async": "^2.1.4",
     "dns-socket": "^1.6.1",
