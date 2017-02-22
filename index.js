@@ -20,6 +20,7 @@ function queryFactory(ip, blacklist, socket, opts) {
           name: ptr(ip, {suffix: false}) + "." + blacklist,
         }]
       }, opts.port, opts.server, function(_err, res) {
+        if (!res) return resolve(false);
         resolve(Boolean(res.answers.length));
       });
     });
@@ -56,6 +57,7 @@ module.exports.batch = function batch(addrs, lists, opts) {
       });
     }, function(_, results) {
       resolve(results);
+      socket.destroy();
     });
   });
 };
