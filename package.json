@@ -22,11 +22,11 @@
     "index.js"
   ],
   "dependencies": {
-    "async": "^2.1.4",
+    "async": "^2.1.5",
     "dns-socket": "^1.6.1",
     "ip-ptr": "^1.2.0"
   },
   "devDependencies": {
-    "ava": "^0.18.1"
+    "ava": "^0.18.2"
   }
 }
