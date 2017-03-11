@@ -12,39 +12,43 @@ $ npm install --save dnsbl
 ## Usage
 ### Single Query
 ```js
-var dnsbl = require('dnsbl');
+const dnsbl = require('dnsbl');
 
 dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org').then(function(listed) {
-    console.log(listed);
-    //=> true
+  console.log(listed);
+  //=> true
 });
 ```
 ### Batch Query
 ```js
-var ips   = ['1.2.3.4', '5.6.7.8'];
-var lists = ['dnsbl.somelist.net', 'dnsbl.someotherlist.net'];
+const dnsbl = require('dnsbl');
 
-dnsbl.batch(ips, lists).then(function(err, results) {
-    console.log(results);
-    //=> [
-    //=>   { blacklist: 'dnsbl-1.somelist.net', address: '1.2.3.4', listed: true  },
-    //=>   { blacklist: 'dnsbl-2.somelist.net', address: '5.6.7.8', listed: false }
-    //=> ]
+dnsbl.batch(
+  ['1.2.3.4', '5.6.7.8']
+  ['dnsbl.somelist.net', 'dnsbl.someotherlist.net']
+).then(function(err, results) {
+  console.log(results);
+  //=> [
+  //=>   { blacklist: 'dnsbl.somelist.net', address: '1.2.3.4', listed: true  },
+  //=>   { blacklist: 'dnsbl.somelist.net', address: '5.6.7.8', listed: false },
+  //=>   { blacklist: 'dnsbl.someotherlist.net', address: '1.2.3.4', listed: true  },
+  //=>   { blacklist: 'dnsbl.someotherlist.net', address: '5.6.7.8', listed: false }
+  //=> ]
 });
 ```
 
 ## API
-### dnsbl.lookup(address, blacklist, options)
+### dnsbl.lookup(address, blacklist, [options])
 - `address`: *string* an IPv4 address to lookup.
 - `blacklist`: *string* a DNS suffix to use.
 
 Returns a promise that resolves to `true` or `false`, indicating if the address is listed (e.g. the DNS query returned a non-empty result).
 
-### dnsbl.batch(addresses, blacklists, options)
+### dnsbl.batch(addresses, blacklists, [options])
 - `addresses` *string* or *Array* - one or more IPv4 addresses to lookup.
 - `blacklists` *string* or *Array* - one or more DNSBL addresses to use.
 
-Returns a promise that resolve to a result object (see below).
+Returns a promise that resolve to a `results` object (see below).
 
 ### `options` object
 - `server` *string* - the DNS server to use. Default: `'208.67.220.220'`.
