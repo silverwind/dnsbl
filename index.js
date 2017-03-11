@@ -20,6 +20,7 @@ function queryFactory(ip, blacklist, socket, opts) {
           name: ptr(ip, {suffix: false}) + "." + blacklist,
         }]
       }, opts.port, opts.server, function(_err, res) {
+        socket.destroy();
         if (!res) return resolve(false);
         resolve(Boolean(res.answers.length));
       });
