@@ -7,6 +7,12 @@ test("query spamhaus negative with timeout", async function(t) {
 test("query spamhaus positive with timeout", async function(t) {
   t.deepEqual(await m.lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000}), true);
 });
+test("query ipv6 positive", async function(t) {
+  t.deepEqual(await m.lookup("::1", "v6.fullbogons.cymru.com"), true);
+});
+test("query ipv6 negative", async function(t) {
+  t.deepEqual(await m.lookup("2001:db8::", "v6.fullbogons.cymru.com"), false);
+});
 test("server/port option", async function(t) {
   t.deepEqual(await m.lookup("127.0.0.1", "zen.spamhaus.org", {
     timeout: 5000,

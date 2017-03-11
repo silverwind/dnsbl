@@ -42,7 +42,7 @@ module.exports.batch = function batch(addrs, lists, opts) {
   const socket = dns({timeout: opts.timeout});
 
   return new Promise(function(resolve) {
-    var todo = [];
+    const todo = [];
     (Array.isArray(addrs)  ? addrs  : [addrs]).forEach(function(address) {
       (Array.isArray(lists) ? lists : [lists]).forEach(function(blacklist) {
         todo.push({

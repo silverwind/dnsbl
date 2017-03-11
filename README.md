@@ -2,6 +2,8 @@
 [![](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl) [![](https://img.shields.io/npm/dm/dnsbl.svg)](https://www.npmjs.org/package/dnsbl) [![](https://api.travis-ci.org/silverwind/dnsbl.svg?style=flat)](https://travis-ci.org/silverwind/dnsbl)
 > Query DNS-based blacklists
 
+Support both IPv4 and IPv6 queries.
+
 ## Installation
 ```sh
 $ npm install --save dnsbl
@@ -36,7 +38,7 @@ dnsbl.batch(ips, lists).then(function(err, results) {
 - `address`: *string* an IPv4 address to lookup.
 - `blacklist`: *string* a DNS suffix to use.
 
-Returns a promise that resolves to `true` or `false`, indicating if the address is listed on the list.
+Returns a promise that resolves to `true` or `false`, indicating if the address is listed (e.g. the DNS query returned a non-empty result).
 
 ### dnsbl.batch(addresses, blacklists, options)
 - `addresses` *string* or *Array* - one or more IPv4 addresses to lookup.
