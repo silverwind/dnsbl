@@ -31,7 +31,10 @@ module.exports.lookup = function lookup(addr, blacklist, opts) {
   opts = Object.assign({}, defaults, opts);
   const socket = dns({timeout: opts.timeout});
 
-  return queryFactory(addr, blacklist, socket, opts)();
+  return queryFactory(addr, blacklist, socket, opts)().then(function(result) {
+    socket.destroy();
+    return result;
+  });
 };
 
 module.exports.batch = function batch(addrs, lists, opts) {
