@@ -59,8 +59,8 @@ module.exports.batch = function batch(addrs, lists, opts) {
         cb(null, item);
       });
     }, function(_, results) {
-      resolve(results);
       socket.destroy();
+      resolve(results);
     });
   });
 };
