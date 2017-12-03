@@ -7,7 +7,7 @@
   "main": "index.js",
   "repository": "silverwind/dnsbl",
   "scripts": {
-    "test": "ava"
+    "test": "make test"
   },
   "keywords": [
     "dnsbl",
@@ -24,11 +24,13 @@
     "index.js"
   ],
   "dependencies": {
-    "async": "^2.1.5",
-    "dns-socket": "^1.6.1",
+    "async": "^2.6.0",
+    "dns-socket": "^1.6.2",
     "ip-ptr": "^1.2.0"
   },
   "devDependencies": {
-    "ava": "^0.18.2"
+    "ava": "^0.24.0",
+    "eslint": "^4.12.1",
+    "updates": "^1.2.6"
   }
 }
