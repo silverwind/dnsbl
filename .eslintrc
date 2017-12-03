@@ -5,6 +5,11 @@ root: true
 parserOptions:
   ecmaVersion: 2017
 
+overrides:
+  - files: ["test.js"]
+    parserOptions:
+      sourceType: module
+
 rules:
   accessor-pairs: [2]
   array-bracket-newline: [0]

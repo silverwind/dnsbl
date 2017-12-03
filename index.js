@@ -43,7 +43,7 @@ module.exports.batch = function batch(addrs, lists, opts) {
 
   return new Promise(function(resolve) {
     const todo = [];
-    (Array.isArray(addrs)  ? addrs  : [addrs]).forEach(function(address) {
+    (Array.isArray(addrs) ? addrs : [addrs]).forEach(function(address) {
       (Array.isArray(lists) ? lists : [lists]).forEach(function(blacklist) {
         todo.push({
           blacklist: blacklist,

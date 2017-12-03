@@ -2,7 +2,7 @@ lint:
 	node_modules/.bin/eslint *.js
 
 test:
-	$(MAKE lint)
+	$(MAKE) lint
 	ava
 
 publish:
