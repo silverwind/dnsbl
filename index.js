@@ -13,7 +13,10 @@ const defaults = {
 
 function queryFactory(ip, blacklist, socket, opts) {
   return function query() {
-    return new Promise(function(resolve) {
+    return new Promise(function(resolve, reject) {
+      socket.on("error", e => {
+        reject(e);
+      });
       socket.query({
         questions: [{
           type: "A",
