@@ -22,8 +22,8 @@ function queryFactory(ip, blacklist, socket, opts) {
           type: "A",
           name: ptr(ip, {suffix: false}) + "." + blacklist,
         }]
-      }, opts.port, opts.server, function(_err, res) {
-        if (_err) return reject(_err);
+      }, opts.port, opts.server, function(err, res) {
+        if (err) return reject(err);
         if (!res) return resolve(false);
         resolve(Boolean(res.answers.length));
       });
