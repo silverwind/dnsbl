@@ -30,24 +30,24 @@ function queryFactory(ip, blacklist, socket, opts) {
   };
 }
 
-module.exports.lookup = function lookup(addr, blacklist, opts) {
+module.exports.lookup = (addr, blacklist, opts) => {
   opts = Object.assign({}, defaults, opts);
   const socket = dns({timeout: opts.timeout});
 
-  return queryFactory(addr, blacklist, socket, opts)().then(function(result) {
+  return queryFactory(addr, blacklist, socket, opts)().then(result => {
     socket.destroy();
     return result;
   });
 };
 
-module.exports.batch = function batch(addrs, lists, opts) {
+module.exports.batch = (addrs, lists, opts) => {
   opts = Object.assign({}, defaults, opts);
   const socket = dns({timeout: opts.timeout});
 
-  return new Promise(function(resolve) {
+  return new Promise(resolve => {
     const todo = [];
-    (Array.isArray(addrs) ? addrs : [addrs]).forEach(function(address) {
-      (Array.isArray(lists) ? lists : [lists]).forEach(function(blacklist) {
+    (Array.isArray(addrs) ? addrs : [addrs]).forEach(address => {
+      (Array.isArray(lists) ? lists : [lists]).forEach(blacklist => {
         todo.push({
           blacklist: blacklist,
           address: address,
@@ -55,13 +55,13 @@ module.exports.batch = function batch(addrs, lists, opts) {
         });
       });
     });
-    async.map(todo, function(item, cb) {
-      item.query().then(function(listed) {
+    async.map(todo, (item, cb) => {
+      item.query().then(listed => {
         item.listed = listed;
         delete item.query;
         cb(null, item);
       });
-    }, function(_, results) {
+    }, (_, results) => {
       socket.destroy();
       resolve(results);
     });
