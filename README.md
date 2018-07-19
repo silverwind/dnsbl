@@ -1,12 +1,12 @@
 # dnsbl
 [![](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl) [![](https://img.shields.io/npm/dm/dnsbl.svg)](https://www.npmjs.org/package/dnsbl) [![](https://api.travis-ci.org/silverwind/dnsbl.svg?style=flat)](https://travis-ci.org/silverwind/dnsbl)
-> Query DNS-based blacklists
+> Query DNS-based blackhole lists
 
 Support both IPv4 and IPv6 queries.
 
 ## Installation
 ```sh
-$ npm install --save dnsbl
+$ npm i dnsbl
 ```
 
 ## Usage

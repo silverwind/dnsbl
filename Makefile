@@ -1,5 +1,5 @@
 lint:
-	node_modules/.bin/eslint *.js
+	npx eslint *.js
 
 test:
 	$(MAKE) lint
@@ -10,7 +10,7 @@ publish:
 	npm publish
 
 update:
-	node_modules/.bin/updates -u
+	npx updates -u
 	rm -rf node_modules
 	yarn
 
