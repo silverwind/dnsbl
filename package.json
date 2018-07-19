@@ -9,6 +9,9 @@
   "scripts": {
     "test": "make test"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "keywords": [
     "dnsbl",
     "rbl",
@@ -24,14 +27,13 @@
     "index.js"
   ],
   "dependencies": {
-    "async": "^2.6.0",
-    "dns-socket": "^1.6.2",
-    "ip-ptr": "^1.2.1"
+    "dns-socket": "^4.1.0",
+    "ip-ptr": "^2.0.0"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
-    "eslint": "^4.14.0",
-    "eslint-config-silverwind": "^1.0.33",
-    "updates": "^2.0.3"
+    "ava": "^0.25.0",
+    "eslint": "^5.1.0",
+    "eslint-config-silverwind": "^1.0.44",
+    "updates": "^3.2.3"
   }
 }

@@ -1,18 +1,17 @@
 "use strict";
 
 const dns = require("dns-socket");
-const async = require("async");
 const ptr = require("ip-ptr");
 
 const defaults = {
-  timeout: 10000,
+  timeout: 1000,
   server: "208.67.220.220",
   port: 53,
 };
 
 function queryFactory(ip, blacklist, socket, opts) {
   return function query() {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       socket.on("error", e => {
         reject(e);
       });
@@ -21,7 +20,7 @@ function queryFactory(ip, blacklist, socket, opts) {
           type: "A",
           name: ptr(ip, {suffix: false}) + "." + blacklist,
         }]
-      }, opts.port, opts.server, function(err, res) {
+      }, opts.port, opts.server, (err, res) => {
         if (err) return reject(err);
         if (!res) return resolve(false);
         resolve(Boolean(res.answers.length));
@@ -43,27 +42,24 @@ module.exports.lookup = (addr, blacklist, opts) => {
 module.exports.batch = (addrs, lists, opts) => {
   opts = Object.assign({}, defaults, opts);
   const socket = dns({timeout: opts.timeout});
+  const items = [];
 
-  return new Promise(resolve => {
-    const todo = [];
-    (Array.isArray(addrs) ? addrs : [addrs]).forEach(address => {
-      (Array.isArray(lists) ? lists : [lists]).forEach(blacklist => {
-        todo.push({
-          blacklist: blacklist,
-          address: address,
-          query: queryFactory(address, blacklist, socket, opts)
-        });
+  (Array.isArray(addrs) ? addrs : [addrs]).forEach(address => {
+    (Array.isArray(lists) ? lists : [lists]).forEach(blacklist => {
+      items.push({
+        blacklist: blacklist,
+        address: address,
+        query: queryFactory(address, blacklist, socket, opts)
       });
     });
-    async.map(todo, (item, cb) => {
-      item.query().then(listed => {
-        item.listed = listed;
-        delete item.query;
-        cb(null, item);
-      });
-    }, (_, results) => {
-      socket.destroy();
-      resolve(results);
+  });
+
+  return Promise.all(items.map(item => item.query())).then(results => {
+    socket.destroy();
+    return items.map((item, i) => {
+      item.listed = results[i];
+      delete item.query;
+      return item;
     });
   });
 };
