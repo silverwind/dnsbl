@@ -10,7 +10,6 @@ $ npm install --save dnsbl
 ```
 
 ## Usage
-### Single Query
 ```js
 const dnsbl = require('dnsbl');
 
@@ -18,10 +17,6 @@ dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org').then(function(listed) {
   console.log(listed);
   //=> true
 });
-```
-### Batch Query
-```js
-const dnsbl = require('dnsbl');
 
 dnsbl.batch(
   ['1.2.3.4', '5.6.7.8']
@@ -39,16 +34,16 @@ dnsbl.batch(
 
 ## API
 ### dnsbl.lookup(address, blacklist, [options])
-- `address`: *string* an IPv4 address to lookup.
-- `blacklist`: *string* a DNS suffix to use.
+- `address`: *string* an IP address.
+- `blacklist`: *string* the hostname of the blacklist to query.
 
-Returns a promise that resolves to `true` or `false`, indicating if the address is listed (e.g. the DNS query returned a non-empty result).
+Returns a `Promise` that resolves to `true` or `false`, indicating if the address is listed (e.g. the DNS query returned a non-empty result). Will reject on error.
 
 ### dnsbl.batch(addresses, blacklists, [options])
-- `addresses` *string* or *Array* - one or more IPv4 addresses to lookup.
-- `blacklists` *string* or *Array* - one or more DNSBL addresses to use.
+- `addresses` *string* or *Array* - one or more IP addresses.
+- `blacklists` *string* or *Array* - one or more blacklist hostnames.
 
-Returns a promise that resolve to a `results` object (see below).
+Returns a `Promise` that resolve to a `results` object (see below).
 
 ### `options` object
 - `server` *string* - the DNS server to use. Default: `'208.67.220.220'`.
@@ -57,8 +52,8 @@ Returns a promise that resolve to a `results` object (see below).
 
 ### `results` object
 The results` object is an array of objects with these properies:
-- `address` *string* - the IPv4 address looked up.
-- `blacklist` *string* - the DNSBL address looked up.
-- `listed` *boolean* -  a boolean indicating if the address is listed on the blacklist.
+- `address` *string* - the IP address.
+- `blacklist` *string* - the blacklist hostname.
+- `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
 
 © [silverwind](https://github.com/silverwind), distributed under BSD licence
