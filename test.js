@@ -16,7 +16,7 @@ test("query ipv6 negative", async t => {
 test("server/port option", async t => {
   t.deepEqual(await m.lookup("127.0.0.1", "zen.spamhaus.org", {
     timeout: 5000,
-    server: "8.8.8.8",
+    servers: ["8.8.8.8"],
     port: 53
   }), false);
 });

@@ -10,7 +10,7 @@
     "test": "make test"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8.3.0"
   },
   "keywords": [
     "dnsbl",
@@ -27,13 +27,12 @@
     "index.js"
   ],
   "dependencies": {
-    "dns-socket": "^4.1.0",
     "ip-ptr": "^2.0.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
-    "eslint": "^5.1.0",
-    "eslint-config-silverwind": "^1.0.44",
-    "updates": "^3.2.3"
+    "eslint": "^5.6.1",
+    "eslint-config-silverwind": "^2.0.9",
+    "updates": "^4.5.2"
   }
 }

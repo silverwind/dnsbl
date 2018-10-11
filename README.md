@@ -13,23 +13,16 @@ $ npm i dnsbl
 ```js
 const dnsbl = require('dnsbl');
 
-dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org').then(function(listed) {
-  console.log(listed);
-  //=> true
-});
+const listed = await dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org');
+//=> true
 
-dnsbl.batch(
-  ['1.2.3.4', '5.6.7.8']
-  ['dnsbl.somelist.net', 'dnsbl.someotherlist.net']
-).then(function(err, results) {
-  console.log(results);
-  //=> [
-  //=>   { blacklist: 'dnsbl.somelist.net', address: '1.2.3.4', listed: true  },
-  //=>   { blacklist: 'dnsbl.somelist.net', address: '5.6.7.8', listed: false },
-  //=>   { blacklist: 'dnsbl.someotherlist.net', address: '1.2.3.4', listed: true  },
-  //=>   { blacklist: 'dnsbl.someotherlist.net', address: '5.6.7.8', listed: false }
-  //=> ]
-});
+const results = await dnsbl.batch(['1.2.3.4', '5.6.7.8'], ['dnsbl.somelist.net', 'dnsbl.someotherlist.net']);
+//=> [
+//=>   { blacklist: 'dnsbl.somelist.net', address: '1.2.3.4', listed: true  },
+//=>   { blacklist: 'dnsbl.somelist.net', address: '5.6.7.8', listed: false },
+//=>   { blacklist: 'dnsbl.someotherlist.net', address: '1.2.3.4', listed: true  },
+//=>   { blacklist: 'dnsbl.someotherlist.net', address: '5.6.7.8', listed: false }
+//=> ]
 ```
 
 ## API
@@ -46,8 +39,7 @@ Returns a `Promise` that resolves to `true` or `false`, indicating if the addres
 Returns a `Promise` that resolve to a `results` object (see below).
 
 ### `options` object
-- `server` *string* - the DNS server to use. Default: `'208.67.220.220'`.
-- `port` *number* - the port to use. Default: `53`.
+- `servers` *string* or *Array* - DNS servers to use. Default: `['208.67.220.220']`.
 - `timeout` *number* - timout in milliseconds. Default: `10000`.
 
 ### `results` object
