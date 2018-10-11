@@ -41,7 +41,7 @@ Returns a `Promise` that resolve to a `results` object (see below).
 ### `options` object
 - `servers` *string* or *Array* - DNS servers to use. Default: `['208.67.220.220']`.
 - `timeout` *number* - timout in milliseconds. Default: `5000`.
-- `concurrency` *number* - number of concurrent queries. Default: `64.
+- `concurrency` *number* - number of concurrent queries. Default: `64`.
 
 ### `results` object
 The `results` object is an array of objects with these properies:
