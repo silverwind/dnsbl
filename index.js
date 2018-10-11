@@ -3,10 +3,12 @@
 const {Resolver} = require("dns");
 const ptr = require("ip-ptr");
 const util = require("util");
+const pMap = require("p-map");
 
 const defaults = {
-  timeout: 10000,
+  timeout: 5000,
   servers: ["208.67.220.220"],
+  concurrency: 64,
 };
 
 async function query(addr, blacklist, resolver, opts) {
@@ -47,7 +49,9 @@ module.exports.batch = async (addrs, lists, opts = {}) => {
     });
   });
 
-  const results = await Promise.all(items.map(item => query(item.address, item.blacklist, item.resolver, opts)));
+  const results = await pMap(items, item => {
+    return query(item.address, item.blacklist, item.resolver, opts);
+  }, {concurrency: opts.concurrency});
 
   return items.map((item, i) => {
     item.listed = results[i];

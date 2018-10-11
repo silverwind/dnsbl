@@ -27,7 +27,8 @@
     "index.js"
   ],
   "dependencies": {
-    "ip-ptr": "^2.0.0"
+    "ip-ptr": "^2.0.0",
+    "p-map": "^2.0.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
