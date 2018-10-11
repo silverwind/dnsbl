@@ -44,7 +44,7 @@ Returns a `Promise` that resolve to a `results` object (see below).
 - `concurrency` *number* - number of concurrent queries. Default: `64.
 
 ### `results` object
-The results` object is an array of objects with these properies:
+The `results` object is an array of objects with these properies:
 - `address` *string* - the IP address.
 - `blacklist` *string* - the blacklist hostname.
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
