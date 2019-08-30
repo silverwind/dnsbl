@@ -7,6 +7,16 @@ test("query spamhaus negative with timeout", async t => {
 test("query spamhaus positive with timeout", async t => {
   t.deepEqual(await m.lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000}), true);
 });
+test("query spamhaus positive with timeout and TXT", async t => {
+  const q = await m.lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000, includeTxt: true});
+  t.deepEqual(q, {
+    result: true,
+    txt: [
+      ["https://www.spamhaus.org/sbl/query/SBL2"],
+      ["https://www.spamhaus.org/query/ip/127.0.0.2"]
+    ],
+  });
+});
 test("query ipv6 positive", async t => {
   t.deepEqual(await m.lookup("::1", "v6.fullbogons.cymru.com"), true);
 });
