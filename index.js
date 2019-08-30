@@ -9,10 +9,12 @@ const defaults = {
   timeout: 5000,
   servers: ["208.67.220.220"],
   concurrency: 64,
+  includeTxt: false,
 };
 
 async function query(addr, blacklist, resolver, opts) {
   const resolve4 = util.promisify(resolver.resolve4.bind(resolver));
+  const resolveTxt = util.promisify(resolver.resolveTxt.bind(resolver));
   const name = ptr(addr, {suffix: false}) + "." + blacklist;
 
   const timeout = setTimeout(() => {
@@ -22,8 +24,20 @@ async function query(addr, blacklist, resolver, opts) {
 
   try {
     const addrs = await resolve4(name);
+    const hasRecord = Boolean(addrs.length);
+
+    let results = hasRecord;
+
+    if (opts.includeTxt) {
+      const txt = await resolveTxt(name);
+      results = {
+        result: hasRecord,
+        txt,
+      };
+    }
+
     clearTimeout(timeout);
-    return Boolean(addrs.length);
+    return results;
   } catch (err) {
     return false;
   }
@@ -33,6 +47,7 @@ module.exports.lookup = async (addr, blacklist, opts = {}) => {
   opts = Object.assign({}, defaults, opts);
   const resolver = new Resolver();
   resolver.setServers(Array.isArray(opts.servers) ? opts.servers : [opts.servers]);
+
   const result = await query(addr, blacklist, resolver, opts);
   return result;
 };
