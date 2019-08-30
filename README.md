@@ -16,6 +16,12 @@ const dnsbl = require('dnsbl');
 const listed = await dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org');
 //=> true
 
+const listed = await dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org', {includeTxt: true});
+//=> {
+//=>   listed: true,
+//=>   txt: [[some txt], [anoter txt]]
+//=> }
+
 const results = await dnsbl.batch(['1.2.3.4', '5.6.7.8'], ['dnsbl.somelist.net', 'dnsbl.someotherlist.net']);
 //=> [
 //=>   { blacklist: 'dnsbl.somelist.net', address: '1.2.3.4', listed: true  },
@@ -32,6 +38,10 @@ const results = await dnsbl.batch(['1.2.3.4', '5.6.7.8'], ['dnsbl.somelist.net',
 
 Returns a `Promise` that resolves to `true` or `false`, indicating if the address is listed (e.g. the DNS query returned a non-empty result). Will reject on error.
 
+If you add `includeTxt` to the options, it will return a object:
+- `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
+- `txt` *string[]* - an array of txt records if IP is blacklisted
+
 ### dnsbl.batch(addresses, blacklists, [options])
 - `addresses` *string* or *Array* - one or more IP addresses.
 - `blacklists` *string* or *Array* - one or more blacklist hostnames.
@@ -42,11 +52,13 @@ Returns a `Promise` that resolve to a `results` object (see below).
 - `servers` *string* or *Array* - DNS servers to use. Default: `['208.67.220.220']`.
 - `timeout` *number* - timout in milliseconds. Default: `5000`.
 - `concurrency` *number* - number of concurrent queries. Default: `64`.
+- `includeTxt` *boolean* - include txt records if IP is blacklisted
 
 ### `results` object
 The `results` object is an array of objects with these properies:
 - `address` *string* - the IP address.
 - `blacklist` *string* - the blacklist hostname.
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
+- `txt` *string[]* - an array of txt records if IP is blacklisted
 
 © [silverwind](https://github.com/silverwind), distributed under BSD licence

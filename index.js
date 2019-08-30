@@ -31,7 +31,7 @@ async function query(addr, blacklist, resolver, opts) {
     if (opts.includeTxt) {
       const txt = await resolveTxt(name);
       results = {
-        result: hasRecord,
+        listed: hasRecord,
         txt,
       };
     }
@@ -69,7 +69,13 @@ module.exports.batch = async (addrs, lists, opts = {}) => {
   }, {concurrency: opts.concurrency});
 
   return items.map((item, i) => {
-    item.listed = results[i];
+    if (opts.includeTxt) {
+      item.listed = results[i].listed;
+      item.txt = results[i].txt;
+    } else {
+      item.listed = results[i];
+    }
+
     delete item.resolver;
     return item;
   });

@@ -10,7 +10,7 @@ test("query spamhaus positive with timeout", async t => {
 test("query spamhaus positive with timeout and TXT", async t => {
   const q = await m.lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000, includeTxt: true});
   t.deepEqual(q, {
-    result: true,
+    listed: true,
     txt: [
       ["https://www.spamhaus.org/sbl/query/SBL2"],
       ["https://www.spamhaus.org/query/ip/127.0.0.2"]
@@ -41,6 +41,16 @@ test("batch spamhaus positive", async t => {
   t.deepEqual(result[0].address, "127.0.0.2");
   t.deepEqual(result[0].blacklist, "zen.spamhaus.org");
   t.deepEqual(result[0].listed, true);
+});
+test("batch spamhaus positive with txt", async t => {
+  const result = await m.batch(["127.0.0.2"], "zen.spamhaus.org", {includeTxt: true});
+  t.deepEqual(result[0].address, "127.0.0.2");
+  t.deepEqual(result[0].blacklist, "zen.spamhaus.org");
+  t.deepEqual(result[0].listed, true);
+  t.deepEqual(result[0].txt, [
+    ["https://www.spamhaus.org/sbl/query/SBL2"],
+    ["https://www.spamhaus.org/query/ip/127.0.0.2"]
+  ]);
 });
 test("batch multiple", async t => {
   const result = await m.batch(["127.0.0.1", "127.0.0.2"], ["zen.spamhaus.org"]);
