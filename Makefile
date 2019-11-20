@@ -1,5 +1,5 @@
 lint:
-	npx eslint *.js
+	npx eslint index.js test.js
 
 test:
 	$(MAKE) lint

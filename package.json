@@ -27,13 +27,13 @@
     "index.js"
   ],
   "dependencies": {
-    "ip-ptr": "^2.0.0",
-    "p-map": "^2.0.0"
+    "ip-ptr": "^3.0.0",
+    "p-map": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "eslint": "^5.6.1",
-    "eslint-config-silverwind": "^2.0.9",
-    "updates": "^4.5.2"
+    "ava": "^2.4.0",
+    "eslint": "^6.6.0",
+    "eslint-config-silverwind": "^5.0.0",
+    "updates": "^9.1.0"
   }
 }
