@@ -1,30 +1,30 @@
-lint:
-	npx eslint index.js test.js
-
 test:
-	$(MAKE) lint
-	ava
+	npx eslint --color --quiet index.js test.js
+	npx ava
 
 publish:
 	git push -u --tags origin master
 	npm publish
 
-update:
-	npx updates -u
+deps:
 	rm -rf node_modules
-	yarn
+	npm i
 
-npm-patch:
-	npm version patch
+update:
+	npx updates -cu
+	$(MAKE) deps
 
-npm-minor:
-	npm version minor
+patch:
+	$(MAKE) test
+	npx ver -C patch
+	$(MAKE) publish
 
-npm-major:
-	npm version major
+minor:
+	$(MAKE) test
+	npx ver -C minor
+	$(MAKE) publish
 
-patch: lint test npm-patch publish
-minor: lint test npm-minor publish
-major: lint test npm-major publish
-
-.PHONY: lint test publish update npm-patch npm-minor npm-major patch minor major
+major:
+	$(MAKE) test
+	npx ver -C major
+	$(MAKE) publish
