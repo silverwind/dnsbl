@@ -2,7 +2,7 @@
 
 const {Resolver} = require("dns");
 const ptr = require("ip-ptr");
-const util = require("util");
+const {promisify} = require("util");
 const pMap = require("p-map");
 
 const defaults = {
@@ -13,8 +13,8 @@ const defaults = {
 };
 
 async function query(addr, blacklist, resolver, opts = {}) {
-  const resolve4 = util.promisify(resolver.resolve4.bind(resolver));
-  const resolveTxt = util.promisify(resolver.resolveTxt.bind(resolver));
+  const resolve4 = promisify(resolver.resolve4.bind(resolver));
+  const resolveTxt = promisify(resolver.resolveTxt.bind(resolver));
   const name = ptr(addr, {suffix: false}) + "." + blacklist;
 
   const timeout = setTimeout(() => {
