@@ -12,34 +12,28 @@ const defaults = {
   includeTxt: false,
 };
 
-async function query(addr, blacklist, resolver, opts) {
+async function query(addr, blacklist, resolver, opts = {}) {
   const resolve4 = util.promisify(resolver.resolve4.bind(resolver));
   const resolveTxt = util.promisify(resolver.resolveTxt.bind(resolver));
   const name = ptr(addr, {suffix: false}) + "." + blacklist;
 
   const timeout = setTimeout(() => {
     resolver.cancel();
-    return false;
+    return opts.includeTxt ? {listed: false, txt: []} : false;
   }, opts.timeout);
 
   try {
-    const addrs = await resolve4(name);
-    const hasRecord = Boolean(addrs.length);
-
-    let results = hasRecord;
-
-    if (opts.includeTxt) {
-      const txt = await resolveTxt(name);
-      results = {
-        listed: hasRecord,
-        txt,
-      };
-    }
+    const [addrs, txt] = await Promise.all([
+      resolve4(name),
+      opts.includeTxt && resolveTxt(name),
+    ]);
 
     clearTimeout(timeout);
-    return results;
+
+    const listed = Boolean(addrs.length);
+    return opts.includeTxt ? {listed, txt} : listed;
   } catch (err) {
-    return false;
+    return opts.includeTxt ? {listed: false, txt: []} : false;
   }
 }
 
@@ -75,7 +69,6 @@ module.exports.batch = async (addrs, lists, opts = {}) => {
     } else {
       item.listed = results[i];
     }
-
     delete item.resolver;
     return item;
   });
