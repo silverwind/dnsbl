@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "ip-ptr": "^3.0.0",
+    "ipaddr.js": "^1.9.1",
     "p-map": "^3.0.0"
   },
   "devDependencies": {

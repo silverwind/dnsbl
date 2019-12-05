@@ -4,6 +4,7 @@ const {Resolver} = require("dns");
 const ipPtr = require("ip-ptr");
 const {promisify} = require("util");
 const pMap = require("p-map");
+const ipAddr = require("ipaddr.js");
 
 const defaults = {
   timeout: 5000,
@@ -15,7 +16,7 @@ const defaults = {
 async function query(addr, blacklist, resolver, opts = {}) {
   const resolve4 = promisify(resolver.resolve4.bind(resolver));
   const resolveTxt = promisify(resolver.resolveTxt.bind(resolver));
-  const name = ipPtr(addr).replace(/\.i.+/, "") + "." + blacklist;
+  const name = (ipAddr.isValid(addr) ? ipPtr(addr).replace(/\.i.+/, "") : addr) + "." + blacklist;
 
   const timeout = setTimeout(() => {
     resolver.cancel();
