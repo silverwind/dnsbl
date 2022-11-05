@@ -1,7 +1,8 @@
 test:
-	npx eslint --color --quiet index.js test.js
+	npx eslint --color --quiet src/index.cjs
+	npx eslint --color --quiet src/index.mjs
 	npx ava
-
+	
 publish:
 	git push -u --tags origin master
 	npm publish

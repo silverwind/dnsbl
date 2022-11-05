@@ -4,7 +4,16 @@
   "description": "Query DNS-based blackhole lists",
   "license": "BSD-2-Clause",
   "author": "silverwind <me@silverwind.io>",
-  "main": "index.js",
+  "contributors": ["shribrahmana <shribrahmana@gmail.com> (http://amultios.world)"],
+  "type": "module",
+  "main": "./src/index.cjs",
+  "exports": {
+    ".": {
+      "default" : "./src/index.cjs",
+      "require": "./src/index.cjs",
+      "import": "./src/index.mjs"
+    }
+  },
   "repository": "silverwind/dnsbl",
   "scripts": {
     "test": "make test"
@@ -31,9 +40,13 @@
     "p-map": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^2.4.0",
-    "eslint": "^6.6.0",
+    "ava": "^5.0.1",
+    "eslint": "^8.26.0",
     "eslint-config-silverwind": "^5.0.0",
-    "updates": "^9.1.0"
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.4.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "updates": "^13.1.13"
   }
 }

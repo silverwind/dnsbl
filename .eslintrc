@@ -2,6 +2,6 @@ root: true
 extends: eslint-config-silverwind
 
 overrides:
-  - files: ["test.js"]
+  - files: ["test/test.cjs","test/test.mjs"]
     parserOptions:
       sourceType: module
