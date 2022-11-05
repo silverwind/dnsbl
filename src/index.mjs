@@ -13,7 +13,7 @@ const defaults = {
 async function query(addr, blacklist, resolver, opts = {}) {
   const resolve4 = promisify(resolver.resolve4.bind(resolver));
   const resolveTxt = promisify(resolver.resolveTxt.bind(resolver));
-  const name = `${ipPtr(addr).replace(/\.i.+/, "")}.${blacklist}`;
+  const name = ipPtr(addr).replace(/\.i.+/, "") + "." + blacklist;
 
   const timeout = setTimeout(() => {
     resolver.cancel();
