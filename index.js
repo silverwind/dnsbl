@@ -45,9 +45,7 @@ export async function lookup(addr, blacklist, opts = {}) {
   if (opts.servers) {
     resolver.setServers(Array.isArray(opts.servers) ? opts.servers : [opts.servers]);
   }
-
-  const result = await query(addr, blacklist, resolver, opts);
-  return result;
+  return query(addr, blacklist, resolver, opts);
 }
 
 export async function batch(addrs, lists, opts = {}) {

@@ -49,7 +49,7 @@ If the `includeTxt` option is set, it will return an `Object` with these propert
 Returns a `Promise` that resolve to a `results` object (see below).
 
 ### `options` object
-- `servers` *string* or *Array* - DNS servers to use. Default: `['208.67.220.220', '208.67.222.222', '2620:119:35::35', '2620:119:53::53']`.
+- `servers` *string* or *Array* - DNS servers to use. Pass a falsy value to use the system resolvers. Default: `['208.67.220.220', '208.67.222.222', '2620:119:35::35', '2620:119:53::53']`.
 - `timeout` *number* - timout in milliseconds. Default: `5000`.
 - `concurrency` *number* - number of concurrent queries. Default: `64`.
 - `includeTxt` *boolean* - include txt records if IP is blacklisted. Default: `false`.
