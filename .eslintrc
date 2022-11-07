@@ -1,7 +1,0 @@
-root: true
-extends: eslint-config-silverwind
-
-overrides:
-  - files: ["test.js"]
-    parserOptions:
-      sourceType: module

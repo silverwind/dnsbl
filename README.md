@@ -1,5 +1,5 @@
 # dnsbl
-[![](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl) [![](https://img.shields.io/npm/dm/dnsbl.svg)](https://www.npmjs.org/package/dnsbl) [![](https://api.travis-ci.org/silverwind/dnsbl.svg?style=flat)](https://travis-ci.org/silverwind/dnsbl)
+[![](https://img.shields.io/npm/v/dnsbl.svg?style=flat)](https://www.npmjs.org/package/dnsbl) [![](https://img.shields.io/npm/dm/dnsbl.svg)](https://www.npmjs.org/package/dnsbl) [![](https://packagephobia.com/badge?p=dnsbl)](https://packagephobia.com/result?p=dnsbl)
 > Query DNS-based blackhole lists
 
 Support both IPv4 and IPv6 queries.
@@ -11,18 +11,18 @@ $ npm i dnsbl
 
 ## Usage
 ```js
-const dnsbl = require('dnsbl');
+import {lookup, batch} from 'dnsbl';
 
-await dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org');
+await lookup('127.0.0.2', 'zen.spamhaus.org');
 // true
 
-await dnsbl.lookup('127.0.0.2', 'zen.spamhaus.org', {includeTxt: true});
+await lookup('127.0.0.2', 'zen.spamhaus.org', {includeTxt: true});
 // {
 //   listed: true,
 //   txt: [['some txt'], ['another txt']]
 // }
 
-await dnsbl.batch(['1.2.3.4', '5.6.7.8'], ['dnsbl.somelist.net', 'dnsbl.someotherlist.net']);
+await batch(['1.2.3.4', '5.6.7.8'], ['dnsbl.somelist.net', 'dnsbl.someotherlist.net']);
 // [
 //   { blacklist: 'dnsbl.somelist.net', address: '1.2.3.4', listed: true },
 //   { blacklist: 'dnsbl.somelist.net', address: '5.6.7.8', listed: false },
@@ -32,7 +32,7 @@ await dnsbl.batch(['1.2.3.4', '5.6.7.8'], ['dnsbl.somelist.net', 'dnsbl.someothe
 ```
 
 ## API
-### dnsbl.lookup(address, blacklist, [options])
+### lookup(address, blacklist, [options])
 - `address`: *string* an IP address.
 - `blacklist`: *string* the hostname of the blacklist to query.
 
@@ -42,14 +42,14 @@ If the `includeTxt` option is set, it will return an `Object` with these propert
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
 - `txt` *string[]* - an array of resolved TXT records for the address.
 
-### dnsbl.batch(addresses, blacklists, [options])
+### batch(addresses, blacklists, [options])
 - `addresses` *string* or *Array* - one or more IP addresses.
 - `blacklists` *string* or *Array* - one or more blacklist hostnames.
 
 Returns a `Promise` that resolve to a `results` object (see below).
 
 ### `options` object
-- `servers` *string* or *Array* - DNS servers to use. Default: `['208.67.220.220']`.
+- `servers` *string* or *Array* - DNS servers to use. Default: `['208.67.220.220', '208.67.222.222', '2620:119:35::35', '2620:119:53::53']`.
 - `timeout` *number* - timout in milliseconds. Default: `5000`.
 - `concurrency` *number* - number of concurrent queries. Default: `64`.
 - `includeTxt` *boolean* - include txt records if IP is blacklisted. Default: `false`.

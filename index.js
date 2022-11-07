@@ -1,21 +1,23 @@
-"use strict";
+import {Resolver} from "node:dns/promises";
+import ipPtr from "ip-ptr";
+import pMap from "p-map";
 
-const {Resolver} = require("dns");
-const ipPtr = require("ip-ptr");
-const {promisify} = require("util");
-const pMap = require("p-map");
-
+// using dns.opendns.com because popuplar resolvers could be rate-limited by the
+// blacklist providers, spamhaus being the prime example.
 const defaults = {
   timeout: 5000,
-  servers: ["208.67.220.220"],
+  servers: [
+    "208.67.220.220",
+    "208.67.222.222",
+    "2620:119:35::35",
+    "2620:119:53::53",
+  ],
   concurrency: 64,
   includeTxt: false,
 };
 
 async function query(addr, blacklist, resolver, opts = {}) {
-  const resolve4 = promisify(resolver.resolve4.bind(resolver));
-  const resolveTxt = promisify(resolver.resolveTxt.bind(resolver));
-  const name = ipPtr(addr).replace(/\.i.+/, "") + "." + blacklist;
+  const name = `${ipPtr(addr).replace(/\.i.+/, "")}.${blacklist}`;
 
   const timeout = setTimeout(() => {
     resolver.cancel();
@@ -24,39 +26,44 @@ async function query(addr, blacklist, resolver, opts = {}) {
 
   try {
     const [addrs, txt] = await Promise.all([
-      resolve4(name),
-      opts.includeTxt && resolveTxt(name),
+      resolver.resolve4(name),
+      opts.includeTxt && resolver.resolveTxt(name),
     ]);
 
     clearTimeout(timeout);
 
     const listed = Boolean(addrs.length);
     return opts.includeTxt ? {listed, txt} : listed;
-  } catch (err) {
+  } catch {
     return opts.includeTxt ? {listed: false, txt: []} : false;
   }
 }
 
-module.exports.lookup = async (addr, blacklist, opts = {}) => {
-  opts = Object.assign({}, defaults, opts);
+export async function lookup(addr, blacklist, opts = {}) {
+  opts = {...defaults, ...opts};
   const resolver = new Resolver();
-  resolver.setServers(Array.isArray(opts.servers) ? opts.servers : [opts.servers]);
+  if (opts.servers) {
+    resolver.setServers(Array.isArray(opts.servers) ? opts.servers : [opts.servers]);
+  }
 
   const result = await query(addr, blacklist, resolver, opts);
   return result;
-};
+}
 
-module.exports.batch = async (addrs, lists, opts = {}) => {
-  opts = Object.assign({}, defaults, opts);
+export async function batch(addrs, lists, opts = {}) {
+  opts = {...defaults, ...opts};
+
+  const resolver = new Resolver();
+  if (opts.servers) {
+    resolver.setServers(Array.isArray(opts.servers) ? opts.servers : [opts.servers]);
+  }
 
   const items = [];
-  (Array.isArray(addrs) ? addrs : [addrs]).forEach(address => {
-    (Array.isArray(lists) ? lists : [lists]).forEach(blacklist => {
-      const resolver = new Resolver();
-      resolver.setServers(Array.isArray(opts.servers) ? opts.servers : [opts.servers]);
+  for (const address of (Array.isArray(addrs) ? addrs : [addrs])) {
+    for (const blacklist of (Array.isArray(lists) ? lists : [lists])) {
       items.push({blacklist, address, resolver});
-    });
-  });
+    }
+  }
 
   const results = await pMap(items, item => {
     return query(item.address, item.blacklist, item.resolver, opts);
@@ -72,4 +79,4 @@ module.exports.batch = async (addrs, lists, opts = {}) => {
     delete item.resolver;
     return item;
   });
-};
+}

@@ -1,30 +1,37 @@
-test:
-	npx eslint --color --quiet index.js test.js
-	npx ava
+node_modules: package-lock.json
+	npm install --no-save
+	@touch node_modules
 
-publish:
+lint: node_modules
+	npx eslint --color .
+
+.PHONY: test
+test: node_modules lint
+	npx vitest
+
+.PHONY: publish
+publish: node_modules
 	git push -u --tags origin master
 	npm publish
 
-deps:
-	rm -rf node_modules
-	npm i
-
-update:
+.PHONY: update
+update: node_modules
 	npx updates -cu
-	$(MAKE) deps
+	rm package-lock.json
+	npm install
+	@touch node_modules
 
-patch:
-	$(MAKE) test
-	npx ver -C patch
-	$(MAKE) publish
+.PHONY: patch
+patch: node_modules test
+	npx versions patch package.json package-lock.json
+	@$(MAKE) --no-print-directory publish
 
-minor:
-	$(MAKE) test
-	npx ver -C minor
-	$(MAKE) publish
+.PHONY: minor
+minor: node_modules test
+	npx versions minor package.json package-lock.json
+	@$(MAKE) --no-print-directory publish
 
-major:
-	$(MAKE) test
-	npx ver -C major
-	$(MAKE) publish
+.PHONY: major
+major: node_modules test
+	npx versions major package.json package-lock.json
+	@$(MAKE) --no-print-directory publish
