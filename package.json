@@ -18,10 +18,10 @@
     "p-map": "5.5.0"
   },
   "devDependencies": {
-    "eslint": "8.27.0",
-    "eslint-config-silverwind": "61.0.1",
-    "updates": "13.1.13",
-    "vitest": "0.25.0"
+    "eslint": "8.32.0",
+    "eslint-config-silverwind": "65.1.0",
+    "updates": "13.2.8",
+    "vitest": "0.28.1"
   },
   "keywords": [
     "dnsbl",
