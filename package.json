@@ -8,20 +8,21 @@
   "main": "index.js",
   "repository": "silverwind/dnsbl",
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "files": [
     "index.js"
   ],
   "dependencies": {
     "ip-ptr": "3.0.0",
-    "p-map": "5.5.0"
+    "p-map": "6.0.0"
   },
   "devDependencies": {
-    "eslint": "8.32.0",
-    "eslint-config-silverwind": "65.1.0",
-    "updates": "13.2.8",
-    "vitest": "0.28.1"
+    "eslint": "8.44.0",
+    "eslint-config-silverwind": "73.1.2",
+    "updates": "14.3.2",
+    "vitest": "0.33.0",
+    "vitest-config-silverwind": "2.1.0"
   },
   "keywords": [
     "dnsbl",
