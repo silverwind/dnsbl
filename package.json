@@ -15,8 +15,8 @@
     "index.js"
   ],
   "dependencies": {
-    "ip-ptr": "3.0.0",
-    "p-map": "7.0.2"
+    "ip-ptr": "^3.0.0",
+    "p-map": "^7.0.2"
   },
   "devDependencies": {
     "eslint": "8.57.0",
