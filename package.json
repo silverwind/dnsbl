@@ -2,11 +2,12 @@
   "name": "dnsbl",
   "version": "4.0.1",
   "description": "Query DNS-based blackhole lists",
-  "license": "BSD-2-Clause",
   "author": "silverwind <me@silverwind.io>",
-  "type": "module",
-  "main": "index.js",
   "repository": "silverwind/dnsbl",
+  "license": "BSD-2-Clause",
+  "type": "module",
+  "sideEffects": false,
+  "exports": "./index.js",
   "engines": {
     "node": ">=16"
   },
@@ -15,14 +16,14 @@
   ],
   "dependencies": {
     "ip-ptr": "3.0.0",
-    "p-map": "6.0.0"
+    "p-map": "7.0.2"
   },
   "devDependencies": {
-    "eslint": "8.52.0",
-    "eslint-config-silverwind": "79.0.4",
-    "updates": "15.0.3",
-    "vitest": "0.34.6",
-    "vitest-config-silverwind": "5.0.0"
+    "eslint": "8.57.0",
+    "eslint-config-silverwind": "83.0.1",
+    "updates": "16.0.1",
+    "vitest": "1.4.0",
+    "vitest-config-silverwind": "7.0.3"
   },
   "keywords": [
     "dnsbl",

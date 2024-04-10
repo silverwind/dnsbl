@@ -9,14 +9,22 @@ test("query spamhaus positive with timeout", async () => {
 });
 
 test("query spamhaus positive with timeout and TXT", async () => {
-  const q = await lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000, includeTxt: true});
-  expect(q, {
-    listed: true,
-    txt: [
-      ["https://www.spamhaus.org/sbl/query/SBL2"],
-      ["https://www.spamhaus.org/query/ip/127.0.0.2"]
-    ],
-  });
+  expect(await lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000, includeTxt: true})).toMatchInlineSnapshot(`
+    {
+      "listed": true,
+      "txt": [
+        [
+          "Listed by SBL, see https://check.spamhaus.org/sbl/query/SBL2",
+        ],
+        [
+          "Listed by PBL, see https://check.spamhaus.org/query/ip/127.0.0.2",
+        ],
+        [
+          "Listed by XBL, see https://check.spamhaus.org/query/ip/127.0.0.2",
+        ],
+      ],
+    }
+  `);
 });
 
 test("query ipv6 positive", async () => {
@@ -37,35 +45,44 @@ test("server/port option", async () => {
 
 test("batch spamhaus negative", async () => {
   const result = await batch(["127.0.0.1"], "zen.spamhaus.org");
-  expect(result[0].address, "127.0.0.1");
-  expect(result[0].blacklist, "zen.spamhaus.org");
+  expect(result[0].address).toEqual("127.0.0.1");
+  expect(result[0].blacklist).toEqual("zen.spamhaus.org");
   expect(result[0].listed).toEqual(false);
 });
 
 test("batch spamhaus positive", async () => {
   const result = await batch(["127.0.0.2"], "zen.spamhaus.org");
-  expect(result[0].address, "127.0.0.2");
-  expect(result[0].blacklist, "zen.spamhaus.org");
+  expect(result[0].address).toEqual("127.0.0.2");
+  expect(result[0].blacklist).toEqual("zen.spamhaus.org");
   expect(result[0].listed).toEqual(true);
 });
 
 test("batch spamhaus positive with txt", async () => {
   const result = await batch(["127.0.0.2"], "zen.spamhaus.org", {includeTxt: true});
-  expect(result[0].address, "127.0.0.2");
-  expect(result[0].blacklist, "zen.spamhaus.org");
+  expect(result[0].address).toEqual("127.0.0.2");
+  expect(result[0].blacklist).toEqual("zen.spamhaus.org");
   expect(result[0].listed).toEqual(true);
-  expect(result[0].txt, [
-    ["https://www.spamhaus.org/sbl/query/SBL2"],
-    ["https://www.spamhaus.org/query/ip/127.0.0.2"]
-  ]);
+  expect(result[0].txt).toMatchInlineSnapshot(`
+    [
+      [
+        "Listed by SBL, see https://check.spamhaus.org/sbl/query/SBL2",
+      ],
+      [
+        "Listed by PBL, see https://check.spamhaus.org/query/ip/127.0.0.2",
+      ],
+      [
+        "Listed by XBL, see https://check.spamhaus.org/query/ip/127.0.0.2",
+      ],
+    ]
+  `);
 });
 
 test("batch multiple", async () => {
   const result = await batch(["127.0.0.1", "127.0.0.2"], ["zen.spamhaus.org"]);
-  expect(result[0].address, "127.0.0.1");
-  expect(result[0].blacklist, "zen.spamhaus.org");
+  expect(result[0].address).toEqual("127.0.0.1");
+  expect(result[0].blacklist).toEqual("zen.spamhaus.org");
   expect(result[0].listed).toEqual(false);
-  expect(result[1].address, "127.0.0.2");
-  expect(result[1].blacklist, "zen.spamhaus.org");
+  expect(result[1].address).toEqual("127.0.0.2");
+  expect(result[1].blacklist).toEqual("zen.spamhaus.org");
   expect(result[1].listed).toEqual(true);
 });
