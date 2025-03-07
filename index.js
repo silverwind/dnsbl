@@ -16,7 +16,7 @@ const defaults = {
   includeTxt: false,
 };
 
-async function query(addr, blacklist, resolver, opts = {}) {
+export async function query(addr, blacklist, resolver, opts = {}) {
   const name = `${ipPtr(addr).replace(/\.i.+/, "")}.${blacklist}`;
 
   const timeout = setTimeout(() => {
