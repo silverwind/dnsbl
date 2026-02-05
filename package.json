@@ -20,8 +20,9 @@
     "p-map": "^7.0.2"
   },
   "devDependencies": {
-    "eslint": "8.57.0",
-    "eslint-config-silverwind": "83.0.2",
+    "eslint": "9.39.2",
+    "eslint-config-silverwind": "120.1.2",
+    "typescript-config-silverwind": "14.0.0",
     "updates": "16.0.1",
     "vitest": "1.5.0",
     "vitest-config-silverwind": "8.0.4"
