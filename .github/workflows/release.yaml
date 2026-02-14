@@ -22,5 +22,5 @@ jobs:
           cache: pnpm
           node-version: latest
           registry-url: "https://registry.npmjs.org"
-      - run: make deps
+      - run: pnpm install
       - run: make publish
