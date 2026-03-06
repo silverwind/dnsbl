@@ -3,7 +3,11 @@ node_modules: pnpm-lock.yaml
 	@touch node_modules
 
 lint: node_modules
-	pnpm exec eslint --color .
+	pnpm exec eslint-silverwind --color .
+
+.PHONY: lint-fix
+lint-fix: node_modules
+	pnpm exec eslint-silverwind --color . --fix
 
 .PHONY: test
 test: node_modules lint
