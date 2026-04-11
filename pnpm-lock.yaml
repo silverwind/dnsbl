@@ -30,6 +30,9 @@ importers:
       updates-config-silverwind:
         specifier: 1.0.3
         version: 1.0.3(prettier@3.8.1)
+      versions:
+        specifier: 14.3.1
+        version: 14.3.1
       vitest:
         specifier: 4.0.18
         version: 4.0.18(jiti@2.6.1)
@@ -1154,6 +1157,11 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  versions@14.3.1:
+    resolution: {integrity: sha512-goCSxgrE0dWs1lOBgvdfQEaSYHlY9ogHofsAZ9KLTp10uvkm/TlZY4/I7cl2/n80tmZFSCcnhfhlE+9CEuTrcg==}
+    engines: {node: '>=22'}
+    hasBin: true
+
   vite@7.3.1:
     resolution: {integrity: sha512-w+N7Hifpc3gRjZ63vYBXA56dvvRlNWRczTdmCBBa+CotUzAPf5b7YMdMR/8CQoeYE5LX3W4wj6RYTgonm1b9DA==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -2241,6 +2249,8 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  versions@14.3.1: {}
 
   vite@7.3.1(jiti@2.6.1):
     dependencies:
