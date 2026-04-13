@@ -8,7 +8,7 @@ test("query spamhaus positive with timeout", async () => {
   expect(await lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000})).toEqual(true);
 });
 
-test("query spamhaus positive with timeout and TXT", async () => {
+test("query spamhaus positive with timeout and TXT", async ({expect}) => {
   expect(await lookup("127.0.0.2", "zen.spamhaus.org", {timeout: 5000, includeTxt: true})).toMatchInlineSnapshot(`
     {
       "listed": true,
@@ -57,7 +57,7 @@ test("batch spamhaus positive", async () => {
   expect(result[0].listed).toEqual(true);
 });
 
-test("batch spamhaus positive with txt", async () => {
+test("batch spamhaus positive with txt", async ({expect}) => {
   const result = await batch(["127.0.0.2"], "zen.spamhaus.org", {includeTxt: true});
   expect(result[0].address).toEqual("127.0.0.2");
   expect(result[0].blacklist).toEqual("zen.spamhaus.org");
