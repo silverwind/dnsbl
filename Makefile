@@ -27,14 +27,11 @@ update: node_modules
 .PHONY: patch
 patch: node_modules test
 	pnpm exec versions -R patch package.json
-	git push -u --tags origin master
 
 .PHONY: minor
 minor: node_modules test
 	pnpm exec versions -R minor package.json
-	git push -u --tags origin master
 
 .PHONY: major
 major: node_modules test
 	pnpm exec versions -R major package.json
-	git push -u --tags origin master
