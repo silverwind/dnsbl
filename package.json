@@ -28,7 +28,7 @@
     "updates-config-silverwind": "2.1.0",
     "versions": "15.0.0",
     "vitest": "4.1.4",
-    "vitest-config-silverwind": "11.1.4"
+    "vitest-config-silverwind": "11.3.3"
   },
   "keywords": [
     "dnsbl",
