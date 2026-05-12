@@ -8,7 +8,7 @@
   "type": "module",
   "sideEffects": false,
   "exports": "./index.js",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@10.33.4",
   "engines": {
     "node": ">=22"
   },
@@ -21,14 +21,14 @@
   },
   "devDependencies": {
     "eslint": "9.39.2",
-    "eslint-config-silverwind": "131.0.4",
+    "eslint-config-silverwind": "133.0.1",
     "jest-extended": "7.0.0",
-    "typescript-config-silverwind": "17.0.0",
-    "updates": "17.15.2",
-    "updates-config-silverwind": "3.0.0",
-    "versions": "15.0.0",
-    "vitest": "4.1.4",
-    "vitest-config-silverwind": "11.3.3"
+    "typescript-config-silverwind": "18.0.0",
+    "updates": "17.16.10",
+    "updates-config-silverwind": "3.0.2",
+    "versions": "15.0.3",
+    "vitest": "4.1.6",
+    "vitest-config-silverwind": "11.3.4"
   },
   "keywords": [
     "dnsbl",
