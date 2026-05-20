@@ -1,6 +1,6 @@
 {
   "name": "dnsbl",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Query DNS-based blackhole lists",
   "author": "silverwind <me@silverwind.io>",
   "repository": "silverwind/dnsbl",
