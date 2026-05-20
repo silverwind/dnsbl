@@ -40,7 +40,7 @@ Returns a `Promise` that resolves to `true` or `false`, indicating if the addres
 
 If the `includeTxt` option is set, it will return an `Object` with these properties:
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
-- `txt` *string[]* - an array of resolved TXT records for the address.
+- `txt` *string[][]* - an array of resolved TXT records for the address.
 
 ### batch(addresses, blacklists, [options])
 - `addresses` *string* or *Array* - one or more IP addresses.
@@ -59,6 +59,6 @@ The `results` object is an array of objects with these properies:
 - `address` *string* - the IP address.
 - `blacklist` *string* - the blacklist hostname.
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
-- `txt` *string[]* - an array of resolved TXT records for the address.
+- `txt` *string[][]* - an array of resolved TXT records for the address.
 
 © [silverwind](https://github.com/silverwind), distributed under BSD licence

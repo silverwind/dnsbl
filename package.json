@@ -5,31 +5,6 @@
   "author": "silverwind <me@silverwind.io>",
   "repository": "silverwind/dnsbl",
   "license": "BSD-2-Clause",
-  "type": "module",
-  "sideEffects": false,
-  "exports": "./index.js",
-  "packageManager": "pnpm@10.33.4",
-  "engines": {
-    "node": ">=22"
-  },
-  "files": [
-    "index.js"
-  ],
-  "dependencies": {
-    "ip-ptr": "^3.0.0",
-    "p-map": "^7.0.4"
-  },
-  "devDependencies": {
-    "eslint": "9.39.2",
-    "eslint-config-silverwind": "133.0.1",
-    "jest-extended": "7.0.0",
-    "typescript-config-silverwind": "18.0.0",
-    "updates": "17.16.10",
-    "updates-config-silverwind": "3.0.2",
-    "versions": "15.0.3",
-    "vitest": "4.1.6",
-    "vitest-config-silverwind": "11.3.4"
-  },
   "keywords": [
     "dnsbl",
     "rbl",
@@ -40,5 +15,38 @@
     "dns",
     "blacklist",
     "blackhole"
-  ]
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "packageManager": "pnpm@10.33.4",
+  "engines": {
+    "node": ">=22",
+    "bun": "*"
+  },
+  "dependencies": {
+    "ip-ptr": "^3.1.1",
+    "p-map": "^7.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "25.8.0",
+    "@typescript/native-preview": "7.0.0-dev.20260516.1",
+    "eslint": "10.4.0",
+    "eslint-config-silverwind": "133.0.3",
+    "jest-extended": "7.0.0",
+    "tsdown": "0.22.0",
+    "tsdown-config-silverwind": "3.0.1",
+    "typescript": "6.0.3",
+    "typescript-config-silverwind": "18.0.0",
+    "updates": "17.16.12",
+    "updates-config-silverwind": "3.0.2",
+    "versions": "15.0.4",
+    "vitest": "4.1.6",
+    "vitest-config-silverwind": "11.3.5"
+  }
 }
