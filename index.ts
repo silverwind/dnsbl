@@ -88,15 +88,14 @@ async function query(addr: string, blacklist: string, opts: Opts): Promise<boole
   }
 }
 
-export function lookup(addr: string, blacklist: string, opts?: Opts & {includeTxt?: false}): Promise<boolean>;
-export function lookup(addr: string, blacklist: string, opts: Opts & {includeTxt: true}): Promise<TxtResult>;
-export async function lookup(addr: string, blacklist: string, opts: Opts = {}): Promise<boolean | TxtResult> {
-  return query(addr, blacklist, {...defaults, ...opts});
+type LookupResult<T extends Opts> = T extends {includeTxt: true} ? TxtResult : boolean;
+type BatchResults<T extends Opts> = T extends {includeTxt: true} ? Array<BatchTxtResult> : Array<BatchResult>;
+
+export function lookup<T extends Opts = Opts>(addr: string, blacklist: string, opts?: T): Promise<LookupResult<T>> {
+  return query(addr, blacklist, {...defaults, ...opts}) as Promise<LookupResult<T>>;
 }
 
-export function batch(addrs: string | Array<string>, lists: string | Array<string>, opts?: Opts & {includeTxt?: false}): Promise<Array<BatchResult>>;
-export function batch(addrs: string | Array<string>, lists: string | Array<string>, opts: Opts & {includeTxt: true}): Promise<Array<BatchTxtResult>>;
-export async function batch(addrs: string | Array<string>, lists: string | Array<string>, opts: Opts = {}): Promise<Array<BatchResult | BatchTxtResult>> {
+export async function batch<T extends Opts = Opts>(addrs: string | Array<string>, lists: string | Array<string>, opts?: T): Promise<BatchResults<T>> {
   const merged = {...defaults, ...opts};
 
   const items: Array<{address: string, blacklist: string}> = [];
@@ -117,5 +116,5 @@ export async function batch(addrs: string | Array<string>, lists: string | Array
       return {address, blacklist, listed, txt};
     }
     return {address, blacklist, listed: result as boolean};
-  });
+  }) as BatchResults<T>;
 }
