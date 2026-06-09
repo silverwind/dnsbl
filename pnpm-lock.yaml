@@ -46,8 +46,8 @@ importers:
         specifier: 17.16.12
         version: 17.16.12
       updates-config-silverwind:
-        specifier: 3.0.2
-        version: 3.0.2(prettier@3.8.1)
+        specifier: 4.0.0
+        version: 4.0.0(prettier@3.8.1)
       versions:
         specifier: 15.0.4
         version: 15.0.4
@@ -1524,8 +1524,8 @@ packages:
   unrs-resolver@1.11.1:
     resolution: {integrity: sha512-bSjt9pjaEBnNiGgc9rUiHGKv5l4/TGzDmYw3RhnkJGtLhbnnA/5qJj7x3dNDCRx/PJxu774LlH8lCOlB4hEfKg==}
 
-  updates-config-silverwind@3.0.2:
-    resolution: {integrity: sha512-5T/OOdMxvkvNgFpV5uTOcJujTmFfDoMS4yv9Y6SiK+48sA4nVcXPUqg7Ac3s/b41hmC2E225EEotlxtBY8PlYg==}
+  updates-config-silverwind@4.0.0:
+    resolution: {integrity: sha512-5I708X8cDr244ApYk6Yvdgo+DPzNP8FK4QzQphgutLV/+i3T8vli/G1UGee8OlLAD64TgX7ytuNSD3A2q2H8YQ==}
     engines: {node: '>=22'}
     peerDependencies:
       prettier: '*'
@@ -2648,7 +2648,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.8.0
 
   minimatch@10.2.4:
     dependencies:
@@ -2920,7 +2920,7 @@ snapshots:
       '@unrs/resolver-binding-win32-ia32-msvc': 1.11.1
       '@unrs/resolver-binding-win32-x64-msvc': 1.11.1
 
-  updates-config-silverwind@3.0.2(prettier@3.8.1):
+  updates-config-silverwind@4.0.0(prettier@3.8.1):
     dependencies:
       prettier: 3.8.1
 
@@ -2935,11 +2935,11 @@ snapshots:
   vite@7.3.1(@types/node@25.8.0)(jiti@2.6.1):
     dependencies:
       esbuild: 0.27.3
-      fdir: 6.5.0(picomatch@4.0.3)
-      picomatch: 4.0.3
+      fdir: 6.5.0(picomatch@4.0.4)
+      picomatch: 4.0.4
       postcss: 8.5.6
       rollup: 4.57.1
-      tinyglobby: 0.2.15
+      tinyglobby: 0.2.16
     optionalDependencies:
       '@types/node': 25.8.0
       fsevents: 2.3.3
