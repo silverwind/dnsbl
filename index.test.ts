@@ -24,9 +24,7 @@ const resolver = {
     if (name in zone) return Promise.resolve(["127.0.0.2"]);
     return Promise.reject(new Error(`ENOTFOUND ${name}`));
   },
-  resolveTxt(name: string) {
-    return Promise.resolve(zone[name] ?? []);
-  },
+  resolveTxt: (name: string) => Promise.resolve(zone[name] ?? []),
 } as unknown as Resolver;
 
 test("query spamhaus negative", async () => {
