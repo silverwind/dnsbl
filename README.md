@@ -25,10 +25,10 @@ await lookup("127.0.0.2", "zen.spamhaus.org", {includeTxt: true});
 
 await batch(["1.2.3.4", "5.6.7.8"], ["dnsbl.somelist.net", "dnsbl.someotherlist.net"]);
 // [
-//   {blacklist: "dnsbl.somelist.net", address: "1.2.3.4", listed: true},
-//   {blacklist: "dnsbl.somelist.net", address: "5.6.7.8", listed: false},
-//   {blacklist: "dnsbl.someotherlist.net", address: "1.2.3.4", listed: true},
-//   {blacklist: "dnsbl.someotherlist.net", address: "5.6.7.8", listed: false}
+//   {address: "1.2.3.4", blacklist: "dnsbl.somelist.net", listed: true},
+//   {address: "1.2.3.4", blacklist: "dnsbl.someotherlist.net", listed: true},
+//   {address: "5.6.7.8", blacklist: "dnsbl.somelist.net", listed: false},
+//   {address: "5.6.7.8", blacklist: "dnsbl.someotherlist.net", listed: false}
 // ]
 ```
 
@@ -37,7 +37,7 @@ await batch(["1.2.3.4", "5.6.7.8"], ["dnsbl.somelist.net", "dnsbl.someotherlist.
 - `address`: *string* an IP address.
 - `blacklist`: *string* the hostname of the blacklist to query.
 
-Returns a `Promise` that resolves to `true` or `false`, indicating if the address is listed (e.g. the DNS query returned a non-empty result). Will reject on error.
+Returns a `Promise` that resolves to `true` or `false`, indicating if the address is listed (i.e. the DNS query returned a non-empty result). DNS errors and timeouts resolve to `false`, an invalid address or server rejects.
 
 If the `includeTxt` option is set, it will return an `Object` with these properties:
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
@@ -60,6 +60,6 @@ The `results` object is an array of objects with these properties:
 - `address` *string* - the IP address.
 - `blacklist` *string* - the blacklist hostname.
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.
-- `txt` *string[][]* - an array of resolved TXT records for the address.
+- `txt` *string[][]* - an array of resolved TXT records for the address, only present if `includeTxt` is set.
 
 © [silverwind](https://github.com/silverwind), distributed under BSD licence
