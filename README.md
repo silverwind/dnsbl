@@ -37,7 +37,7 @@ await batch(["1.2.3.4", "5.6.7.8"], ["dnsbl.somelist.net", "dnsbl.someotherlist.
 - `address`: *string* an IP address.
 - `blacklist`: *string* the hostname of the blacklist to query.
 
-Returns a `Promise` that resolves to `true` or `false`, indicating if the address is listed (i.e. the DNS query returned a non-empty result). DNS errors and timeouts resolve to `false`, an invalid address or server rejects.
+Returns a `Promise` that resolves to `true` or `false`, indicating if the address is listed (i.e. the DNS query returned a non-empty result). DNS errors and timeouts resolve to `false`, or to `{listed: false, txt: []}` if `includeTxt` is set. A failed TXT query yields `txt: []` without affecting `listed`. An invalid address or server rejects.
 
 If the `includeTxt` option is set, it will return an `Object` with these properties:
 - `listed` *boolean* - a boolean indicating if the address is listed on the blacklist.

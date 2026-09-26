@@ -67,6 +67,14 @@ function getResolver(opts: Opts): Resolver {
   return resolver;
 }
 
+async function resolveTxt(resolver: Resolver, name: string): Promise<Array<Array<string>>> {
+  try {
+    return await resolver.resolveTxt(name);
+  } catch {
+    return [];
+  }
+}
+
 async function query(addr: string, blacklist: string, opts: Opts): Promise<boolean | TxtResult> {
   // ipPtr appends .in-addr.arpa / .ip6.arpa, strip it to get the DNSBL query label
   const name = `${ipPtr(addr).replace(/\.i.+/, "")}.${blacklist}`;
@@ -76,7 +84,7 @@ async function query(addr: string, blacklist: string, opts: Opts): Promise<boole
   try {
     const [addrs, txt] = await Promise.all([
       resolver.resolve4(name),
-      opts.includeTxt ? resolver.resolveTxt(name) : Promise.resolve<Array<Array<string>>>([]),
+      opts.includeTxt ? resolveTxt(resolver, name) : Promise.resolve<Array<Array<string>>>([]),
     ]);
     const listed = Boolean(addrs.length);
     return opts.includeTxt ? {listed, txt} : listed;

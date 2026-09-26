@@ -21,7 +21,10 @@ const resolver = {
     if (name in zone) return Promise.resolve(["127.0.0.2"]);
     return Promise.reject(new Error(`ENOTFOUND ${name}`));
   },
-  resolveTxt: (name: string) => Promise.resolve(zone[name] ?? []),
+  resolveTxt(name: string) {
+    if (zone[name]?.length) return Promise.resolve(zone[name]);
+    return Promise.reject(new Error(`ENODATA ${name}`));
+  },
 } as unknown as Resolver;
 
 test("query spamhaus negative", async () => {
@@ -39,8 +42,9 @@ test("query spamhaus positive with TXT", async () => {
   });
 });
 
-test("query ipv6 positive", async () => {
+test("query ipv6 positive without TXT records", async () => {
   expect(await lookup("::1", "v6.fullbogons.cymru.com", {resolver})).toEqual(true);
+  expect(await lookup("::1", "v6.fullbogons.cymru.com", {resolver, includeTxt: true})).toEqual({listed: true, txt: []});
 });
 
 test("query ipv6 negative", async () => {
