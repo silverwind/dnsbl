@@ -42,8 +42,7 @@ export type BatchTxtResult = BatchResult & {
   txt: Array<Array<string>>,
 };
 
-// using OpenDNS because popular resolvers could be rate-limited by the
-// blacklist providers, spamhaus being the prime example.
+// OpenDNS because blacklist providers like spamhaus rate-limit popular resolvers
 const defaults = {
   timeout: 5000,
   servers: [
@@ -99,9 +98,8 @@ export async function batch<T extends Opts = Opts>(addrs: string | Array<string>
   const merged = {...defaults, ...opts};
 
   const items: Array<{address: string, blacklist: string}> = [];
-  const addresses = toArray(addrs);
   const blacklists = toArray(lists);
-  for (const address of addresses) {
+  for (const address of toArray(addrs)) {
     for (const blacklist of blacklists) {
       items.push({address, blacklist});
     }
