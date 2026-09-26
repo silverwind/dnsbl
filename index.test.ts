@@ -1,8 +1,8 @@
 import {lookup, batch, type BatchTxtResult} from "./index.ts";
-import ipPtr from "ip-ptr";
 import type {Resolver} from "node:dns/promises";
 
-const qname = (addr: string, blacklist: string) => `${ipPtr(addr).replace(/\.i.+/, "")}.${blacklist}`;
+const zen = "zen.spamhaus.org";
+const v6 = "v6.fullbogons.cymru.com";
 
 const spamhausTxt = [
   ["Listed by SBL, see https://check.spamhaus.org/sbl/query/SBL2"],
@@ -11,72 +11,41 @@ const spamhausTxt = [
 ];
 
 const zone: Record<string, Array<Array<string>>> = {
-  [qname("127.0.0.2", "zen.spamhaus.org")]: spamhausTxt,
-  [qname("::1", "v6.fullbogons.cymru.com")]: [],
+  [`2.0.0.127.${zen}`]: spamhausTxt,
+  [`1${".0".repeat(31)}.${v6}`]: [],
 };
 
 const resolver = {
   cancel() {},
-  resolve4(name: string) {
-    if (name in zone) return Promise.resolve(["127.0.0.2"]);
-    return Promise.reject(new Error(`ENOTFOUND ${name}`));
-  },
-  resolveTxt(name: string) {
-    if (zone[name]?.length) return Promise.resolve(zone[name]);
-    return Promise.reject(new Error(`ENODATA ${name}`));
-  },
+  resolve4: async (name: string) => name in zone ? ["127.0.0.2"] : Promise.reject(new Error(`ENOTFOUND ${name}`)),
+  resolveTxt: async (name: string) => zone[name]?.length ? zone[name] : Promise.reject(new Error(`ENODATA ${name}`)),
 } as unknown as Resolver;
 
-test("query spamhaus negative", async () => {
-  expect(await lookup("127.0.0.1", "zen.spamhaus.org", {resolver})).toEqual(false);
+test.each([
+  ["127.0.0.1", zen, {}, false],
+  ["127.0.0.2", zen, {}, true],
+  ["127.0.0.2", zen, {includeTxt: true}, {listed: true, txt: spamhausTxt}],
+  ["::1", v6, {}, true],
+  ["::1", v6, {includeTxt: true}, {listed: true, txt: []}],
+  ["2002:db8::", v6, {}, false],
+  ["127.0.0.1", zen, {servers: ["8.8.8.8"]}, false],
+])("lookup %s on %s with %j", async (addr, blacklist, opts, expected) => {
+  expect(await lookup(addr, blacklist, {resolver, ...opts})).toEqual(expected);
 });
 
-test("query spamhaus positive", async () => {
-  expect(await lookup("127.0.0.2", "zen.spamhaus.org", {resolver})).toEqual(true);
+test.each([
+  [["127.0.0.1"], zen, [{address: "127.0.0.1", blacklist: zen, listed: false}]],
+  [["127.0.0.2"], zen, [{address: "127.0.0.2", blacklist: zen, listed: true}]],
+  [["127.0.0.1", "127.0.0.2"], [zen], [
+    {address: "127.0.0.1", blacklist: zen, listed: false},
+    {address: "127.0.0.2", blacklist: zen, listed: true},
+  ]],
+])("batch %j on %j", async (addrs, lists, expected) => {
+  expect(await batch(addrs, lists, {resolver})).toEqual(expected);
 });
 
-test("query spamhaus positive with TXT", async () => {
-  expect(await lookup("127.0.0.2", "zen.spamhaus.org", {resolver, includeTxt: true})).toEqual({
-    listed: true,
-    txt: spamhausTxt,
-  });
-});
-
-test("query ipv6 positive without TXT records", async () => {
-  expect(await lookup("::1", "v6.fullbogons.cymru.com", {resolver})).toEqual(true);
-  expect(await lookup("::1", "v6.fullbogons.cymru.com", {resolver, includeTxt: true})).toEqual({listed: true, txt: []});
-});
-
-test("query ipv6 negative", async () => {
-  expect(await lookup("2002:db8::", "v6.fullbogons.cymru.com", {resolver})).toEqual(false);
-});
-
-test("server option", async () => {
-  expect(await lookup("127.0.0.1", "zen.spamhaus.org", {resolver, servers: ["8.8.8.8"]})).toEqual(false);
-});
-
-test("batch spamhaus negative", async () => {
-  expect(await batch(["127.0.0.1"], "zen.spamhaus.org", {resolver})).toEqual([
-    {address: "127.0.0.1", blacklist: "zen.spamhaus.org", listed: false},
-  ]);
-});
-
-test("batch spamhaus positive", async () => {
-  expect(await batch(["127.0.0.2"], "zen.spamhaus.org", {resolver})).toEqual([
-    {address: "127.0.0.2", blacklist: "zen.spamhaus.org", listed: true},
-  ]);
-});
-
-test("batch spamhaus positive with txt", async () => {
-  const result: Array<BatchTxtResult> = await batch(["127.0.0.2"], "zen.spamhaus.org", {resolver, includeTxt: true});
-  expect(result).toEqual([
-    {address: "127.0.0.2", blacklist: "zen.spamhaus.org", listed: true, txt: spamhausTxt},
-  ]);
-});
-
-test("batch multiple", async () => {
-  expect(await batch(["127.0.0.1", "127.0.0.2"], ["zen.spamhaus.org"], {resolver})).toEqual([
-    {address: "127.0.0.1", blacklist: "zen.spamhaus.org", listed: false},
-    {address: "127.0.0.2", blacklist: "zen.spamhaus.org", listed: true},
+test("batch with txt", async () => {
+  expect(await batch(["127.0.0.2"], zen, {resolver, includeTxt: true}) satisfies Array<BatchTxtResult>).toEqual([
+    {address: "127.0.0.2", blacklist: zen, listed: true, txt: spamhausTxt},
   ]);
 });
